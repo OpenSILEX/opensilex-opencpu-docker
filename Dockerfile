@@ -1,5 +1,9 @@
 FROM opencpu/rstudio
 
+RUN groupadd -g 999 appuser && \
+    useradd -r -u 999 -g appuser appuser
+USER appuser
+
 RUN apt-get install -y libgit2-dev 
 
 RUN R -e 'install.packages("devtools");devtools::install_github("sanchezi/phisWSClientR", build_vignettes=TRUE)'
