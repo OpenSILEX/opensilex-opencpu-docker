@@ -1,10 +1,6 @@
 # Use builds from launchpad
 FROM opencpu/base
 
-RUN groupadd -g 998 appuser && \
-    useradd -r -u 998 -g appuser appuser
-USER appuser
-
 RUN apt-get update && apt-get install -y libgit2-dev apt-utils
 
 # RUN R -e 'install.packages("devtools");devtools::install_github("sanchezi/phisWSClientR", build_vignettes=TRUE)' 
