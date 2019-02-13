@@ -3,11 +3,8 @@ FROM opencpu/base
 
 RUN apt-get update && apt-get install -y libgit2-dev apt-utils
 
-RUN R -e 'install.packages("devtools");devtools::install_github("sanchezi/phisWSClientR", build_vignettes=TRUE)' 
+RUN R -e 'install.packages("devtools");devtools::install_github("niio972/phisWSClientR", build_vignettes=TRUE)' 
 RUN R -e 'library("devtools");devtools::install_github("niio972/opencpu-webapp")'   
-#RUN R -e 'install.packages("ggplot2");install.packages("plotly");' 
-    
-#RUN R -e 'install.packages("dyplr");install.packages("openssl");'
 
 
 # Install development tools
