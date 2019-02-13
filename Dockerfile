@@ -1,6 +1,10 @@
 # Use builds from launchpad
 FROM opencpu/base
 
+RUN groupadd -g 998 appuser && \
+    useradd -r -u 998 -g appuser appuser
+USER appuser
+
 RUN apt-get update && apt-get install -y libgit2-dev apt-utils
 
 # RUN R -e 'install.packages("devtools");devtools::install_github("sanchezi/phisWSClientR", build_vignettes=TRUE)' 
@@ -18,10 +22,6 @@ RUN \
 RUN echo "server-app-armor-enabled=0" >> /etc/rstudio/rserver.conf
 
 RUN service cron start 
-
-RUN groupadd -g 998 appuser && \
-    useradd -r -u 998 -g appuser appuser
-USER appuser
 
 CMD /usr/lib/rstudio-server/bin/rserver && apachectl -DFOREGROUND
 
