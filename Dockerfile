@@ -19,8 +19,8 @@ RUN echo "server-app-armor-enabled=0" >> /etc/rstudio/rserver.conf
 
 RUN service cron start 
 
-RUN groupadd -g 999 appuser && \
-    useradd -r -u 999 -g appuser appuser
+RUN groupadd -g 998 appuser && \
+    useradd -r -u 998 -g appuser appuser
 USER appuser
 
 CMD /usr/lib/rstudio-server/bin/rserver && apachectl -DFOREGROUND
