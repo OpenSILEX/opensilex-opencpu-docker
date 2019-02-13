@@ -1,10 +1,6 @@
 # Use builds from launchpad
 FROM opencpu/base
 
-RUN groupadd -g 999 appuser && \
-    useradd -r -u 999 -g appuser appuser
-USER appuser
-
 RUN apt-get install -y libgit2-dev 
 
 RUN \
@@ -19,6 +15,12 @@ RUN \
 # Workaround for rstudio apparmor bug
 RUN echo "server-app-armor-enabled=0" >> /etc/rstudio/rserver.conf
 
-CMD service cron start && /usr/lib/rstudio-server/bin/rserver && apachectl -DFOREGROUND
+RUN service cron start 
+
+RUN groupadd -g 999 appuser && \
+    useradd -r -u 999 -g appuser appuser
+USER appuser
+
+CMD /usr/lib/rstudio-server/bin/rserver && apachectl -DFOREGROUND
 
 EXPOSE 8004/tcp
