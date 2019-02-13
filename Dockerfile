@@ -1,7 +1,7 @@
 # Use builds from launchpad
 FROM opencpu/base
 
-RUN apt-get install -y libgit2-dev 
+RUN apt-get update && apt-get install -y libgit2-dev 
 
 RUN \
     R -e 'install.packages("devtools");devtools::install_github("sanchezi/phisWSClientR", build_vignettes=TRUE)' \
