@@ -9,7 +9,7 @@ copygithub:
   - echo $GIT_PAT
   - git clone https://niio972:$GITHUB_PAT@github.com/niio972/ocpu-docker.git 
   - cd ocpu-docker
-  - git remote add prod https://arnaud.charleroy:$GITLAB_PATforgemia.inra.fr/OpenSILEX/data-analysis-visualisation/opensilex-ocpu-docker.git
+  - git remote add prod https://arnaud.charleroy:$GITLAB_PAT@forgemia.inra.fr/OpenSILEX/data-analysis-visualisation/opensilex-ocpu-docker.git
   - git fetch prod
   - git pull prod master
   - git push origin master
