@@ -11,5 +11,5 @@ copygithub:
   - cd ocpu-docker
   - git remote add prod https://arnaud.charleroy:$GITLAB_PAT@forgemia.inra.fr/OpenSILEX/data-analysis-visualisation/opensilex-ocpu-docker.git
   - git fetch prod
-  - git pull prod master
+  - git pull prod master --allow-unrelated-histories
   - git push origin master
