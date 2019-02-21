@@ -7,8 +7,7 @@ before_script:
 copygithub:
   script:
   - echo $GIT_PAT
-  - git config --global url.https://niio972:$GIT_PAT@github.com/"
-  - git clone https://github.com/niio972/ocpu-docker.git 
+  - git clone https://niio972:$GIT_PAT@github.com/niio972/ocpu-docker.git 
   - git remote add upstream https://forgemia.inra.fr/OpenSILEX/data-analysis-visualisation/opensilex-ocpu-docker.git
   - git fetch upstream
   - git pull upstream master
