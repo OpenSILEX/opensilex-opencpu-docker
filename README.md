@@ -1,8 +1,8 @@
-# Install docker 
+# 1. Install docker 
 
 Follow the [Installation guide](https://docs.docker.com/install/linux/docker-ce/debian/#install-docker-ce-1).
 
-## 1. Installation  version dated from 2019-02-13 (refer to the previous link)
+## 1.1. Installation version dated from 2019-02-13 (refer to the previous link)
 ```bash
  sudo apt-get update
 
@@ -14,7 +14,7 @@ Follow the [Installation guide](https://docs.docker.com/install/linux/docker-ce/
     software-properties-common
 ```
 
-## 2. Add Docker’s official GPG key:
+## 1.2. Add Docker’s official GPG key:
 ```bash
 sudo apt-key fingerprint 0EBFCD88
 
@@ -23,14 +23,16 @@ pub   4096R/0EBFCD88 2017-02-22
 uid                  Docker Release (CE deb) <docker@docker.com>
 sub   4096R/F273FCD8 2017-02-22
 ```
-## 3. Use the following command to set up the stable repository.
+
+## 1.3. Use the following command to set up the stable repository.
 ```bash
 sudo add-apt-repository \
    "deb [arch=amd64] https://download.docker.com/linux/debian \
    $(lsb_release -cs) \
    stable"
 ```
-# Configure Docker as non root user 
+
+## 1.4. Configure Docker as non root user 
 user=phis
 
 ```bash
@@ -42,12 +44,12 @@ sudo chown $user:$user /home/$user/.docker -R
 sudo chmod g+rwx /home/"$user"/.docker" -R
 ```
 
-# Configure to start 
+## 1.5. Configure to start 
 sudo systemctl enable docker
 
-# Configure Docker DNS 
+# 2. Configure Docker DNS 
 
-## 1.1 ubuntu
+## 2.1. for ubuntu
 
 Run the following command :
 
@@ -62,7 +64,7 @@ IP4.DNS[1]:                             147.99.0.248
 IP4.DNS[2]:                             147.99.0.249
 ```
 
-## 1.2 debian
+## 2.2. for debian
 
 ```bash
 more  /etc/resolv.conf
@@ -71,13 +73,13 @@ nameserver 138.102.210.7
 nameserver 147.100.166.31
 ```
 
-## 2. Connect with root account
+## 2.3. Connect with root account
 
 ```bash
 sudo su
 ```
 
-## 3. Set right docker DNS
+## 2.4. Set right docker DNS
 
 ```bash
 sudo su
@@ -92,7 +94,7 @@ echo "{\"dns\": [\"YOUR_DNS_1_IP_HERE\", \"YOUR_DNS_2_IP_HERE\"]}" > /etc/docker
 }
 ```
 
-## 4. restart docker and from root:
+## 2.5. restart docker and from root:
 
 ```bash
  service docker restart
@@ -121,24 +123,23 @@ nano opcu.conf
    </VirtualHost>
 ``` -->
 
-## Run docker image
+# 3. Build docker image
 ```bash
 docker build --no-cache https://github.com/niio972/ocpu-docker.git -t opensilex/ocpu
 ```
 
-### Run docker
-
-```bash
- docker run -v {host_scripts_path}:/home/opencpu/scripts --name opencpu-server -t -p 8004:8004 opencpu/rstudio
-```
+# 4. Run docker image
 
 - example :
 
 ```bash
 docker run -d -t -p 8004:8004 --name=opensilex-ocpu opensilex/ocpu:latest
+# or
+# if you want to link a host folder and container folder
+# docker run -v {host_scripts_path}:/home/opencpu/scripts --name opencpu-server -t -p 8004:8004 opencpu/rstudio
 ```
 
-### Move webapp to {host_scripts_path} and install it
+# 5. How to move an R package from host to container {host_scripts_path} and install it
 
 - example :
 
