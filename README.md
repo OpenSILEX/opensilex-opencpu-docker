@@ -123,23 +123,19 @@ nano opcu.conf
    </VirtualHost>
 ``` -->
 
-# 3. Build docker image
-```bash
-docker build --no-cache https://github.com/niio972/ocpu-docker.git -t opensilex/ocpu
-```
 
-# 4. Run docker image
+# 3. Run docker image
 
 - example :
 
 ```bash
-docker run -d -t -p 8004:8004 --name=opensilex-ocpu opensilex/ocpu:latest
+docker run -d -t -p 8004:8004  -e github='https://github.com/niio972/ocpu-docker.git' --name=opensilex-ocpu opensilex/ocpu:latest
 # or
 # if you want to link a host folder and container folder
 # docker run -v {host_scripts_path}:/home/opencpu/scripts --name opencpu-server -t -p 8004:8004 opencpu/rstudio
 ```
 
-# 5. How to move an R package from host to container {host_scripts_path} and install it
+# 4. How to move an R package from host to container {host_scripts_path} and install it
 
 - example :
 
