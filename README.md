@@ -128,13 +128,13 @@ nano opcu.conf
 
 ## 3.1 Build docker image
 ```bash
-   docker build --no-cache https://github.com/niio972/ocpu-docker.git -t opensilex/ocpudocker
+   docker build --no-cache https://github.com/niio972/ocpu-docker.git -t opensilex/opencpu
 ```
 
 ## 3.2 Run docker image
 - example :
 ```bash
-docker run -d -t -p 8004:8004  --name=opensilex-ocpu opensilex/ocpu:latest
+docker run -d -t -p 8004:8004  --name=opensilex-ocpu opensilex/opencpu:latest
 # or
 # if you want to link a host folder and container folder
 # docker run -v {host_scripts_path}:/home/opencpu/scripts --name opencpu-server -t -p 8004:8004 opencpu/rstudio
