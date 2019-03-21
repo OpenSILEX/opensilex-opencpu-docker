@@ -16,6 +16,8 @@ Follow the [Installation guide](https://docs.docker.com/install/linux/docker-ce/
 
 ## 1.2. Add Docker’s official GPG key:
 ```bash
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+
 sudo apt-key fingerprint 0EBFCD88
 
 pub   4096R/0EBFCD88 2017-02-22
@@ -30,19 +32,31 @@ sudo add-apt-repository \
    "deb [arch=amd64] https://download.docker.com/linux/debian \
    $(lsb_release -cs) \
    stable"
+
+```
+
+## 1.4. Install docker
+```bash
+sudo apt-get update
+
+sudo apt-get install docker-ce docker-ce-cli containerd.io
 ```
 
 ## 1.4. Configure Docker as non root user 
-user=phis
 
 ```bash
 sudo groupadd docker
 ```
 ```
-sudo usermod -aG docker $user
-sudo chown $user:$user /home/$user/.docker -R
-sudo chmod g+rwx /home/"$user"/.docker" -R
+user=phis
+sudo usermod -aG docker $USER 
+# $USER means the connected user
+# if is different from phis user run the following commands
+# sudo usermod -aG docker $USER
 ```
+For more information go to https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-root-user
+
+*Log out and log back in so that your group membership is re-evaluated.*
 
 ## 1.5. Configure to start 
 sudo systemctl enable docker
@@ -83,6 +97,7 @@ sudo su
 
 ```bash
 sudo su
+
 echo "{\"dns\": [\"YOUR_DNS_1_IP_HERE\", \"YOUR_DNS_2_IP_HERE\"]}" > /etc/docker/daemon.json
 ```
 
@@ -101,28 +116,6 @@ echo "{\"dns\": [\"YOUR_DNS_1_IP_HERE\", \"YOUR_DNS_2_IP_HERE\"]}" > /etc/docker
 
  exit
 ```
-
-<!-- # Configure apache
-
-sudo a2enmod proxy proxy_http
-
-
-cd /etc/apache2/sites-available
-
-nano opcu.conf
-
-```bash
-   <VirtualHost *:80>
-      ServerName 138.102.159.37 # Adresse principale 
-      ServerAlias 138.102.159.37 # Aliases du domaine, si l'adresse ou les adresses sont utilisée, on pointe au même endroit, facultatif
-   # ServerAdmin postmaster@domaine1.example # Adresse email de l'admin du domaine, facultatif
-      #DocumentRoot /var/www/domaine1.example # Répertoire où pointe le domaine
-      ProxyPass / http://138.102.159.37:8004/
-      ProxyPassReverse / http://138.102.159.37:8004/
-      ProxyPreserveHost On
-   </VirtualHost>
-``` -->
-
 
 # 3. Run docker container
 
