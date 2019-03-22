@@ -1,6 +1,6 @@
 # 1. Install docker 
 
-Follow the [Installation guide](https://docs.docker.com/install/linux/docker-ce/debian/#install-docker-ce-1).
+Follow the [Installation guide](https://docs.docker.com/install/linux/docker-ce/debian/#install-docker-ce-1). *(recommended)*
 
 ## 1.1. Installation version dated from 2019-02-13 (refer to the previous link)
 ```bash
@@ -18,6 +18,7 @@ Follow the [Installation guide](https://docs.docker.com/install/linux/docker-ce/
 ```bash
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
 
+# check GPG key
 sudo apt-key fingerprint 0EBFCD88
 
 pub   4096R/0EBFCD88 2017-02-22
@@ -44,26 +45,34 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io
 
 ## 1.4. Configure Docker as non root user 
 
+
 ```bash
+# create docker group if not
 sudo groupadd docker
 ```
-```
+```bash
+# put phis user in groupe docker
 user=phis
-sudo usermod -aG docker $USER 
+sudo usermod -aG docker $user 
 # $USER means the connected user
 # if is different from phis user run the following commands
 # sudo usermod -aG docker $USER
 ```
-For more information go to https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-root-user
 
 *Log out and log back in so that your group membership is re-evaluated.*
 
-## 1.5. Configure to start 
+For more information go to https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-root-user
+
+
+## 1.5. Enable docker service at startup
+```bash
 sudo systemctl enable docker
+```
 
-# 2. Configure Docker DNS 
+## 1.6. Configure Docker DNS which allows docker containers it to connect to internet
 
-## 2.1. for ubuntu
+### 1.6.1 Get servver DNS configuration
+#### 1.6.1.1. for ubuntu
 
 Run the following command :
 
@@ -78,7 +87,7 @@ IP4.DNS[1]:                             147.99.0.248
 IP4.DNS[2]:                             147.99.0.249
 ```
 
-## 2.2. for debian
+#### 1.6.1.2 for debian
 
 ```bash
 more  /etc/resolv.conf
@@ -87,17 +96,10 @@ nameserver 138.102.210.7
 nameserver 147.100.166.31
 ```
 
-## 2.3. Connect with root account
+### 1.6.2. Connect with root account and set right docker DNS
 
 ```bash
 sudo su
-```
-
-## 2.4. Set right docker DNS
-
-```bash
-sudo su
-
 echo "{\"dns\": [\"YOUR_DNS_1_IP_HERE\", \"YOUR_DNS_2_IP_HERE\"]}" > /etc/docker/daemon.json
 ```
 
@@ -105,26 +107,24 @@ echo "{\"dns\": [\"YOUR_DNS_1_IP_HERE\", \"YOUR_DNS_2_IP_HERE\"]}" > /etc/docker
 
 ```json
 {
-  "dns": ["147.99.0.248", "147.99.0.249"]
+  "dns": ["147.99.0.222", "147.99.0.223"]
 }
 ```
 
-## 2.5. restart docker and from root:
+## 1.6.3. restart docker and from root:
 
 ```bash
- service docker restart
-
- exit
+service docker restart
 ```
 
-# 3. Run docker container
+# 2. Run docker container
 
-## 3.1 Build docker image
+## 2.1 Build docker image
 ```bash
-   docker build --no-cache https://github.com/niio972/ocpu-docker.git -t opensilex/opencpu
+docker build --no-cache https://github.com/niio972/ocpu-docker.git -t opensilex/opencpu
 ```
 
-## 3.2 Run docker image
+## 2.2 Run docker image
 - example :
 ```bash
 docker run -d -t -p 8004:8004  --name=opensilex-ocpu opensilex/opencpu:latest
@@ -132,13 +132,61 @@ docker run -d -t -p 8004:8004  --name=opensilex-ocpu opensilex/opencpu:latest
 # if you want to link a host folder and container folder
 # docker run -v {host_scripts_path}:/home/opencpu/scripts --name opencpu-server -t -p 8004:8004 opencpu/rstudio
 ```
+# 3. How to install an openCPU application
+
+You can connect to the http://{serverIp}:8004/rstudio your favorite R IDE
+
+The default password is __opencpu__ but it can be modified. (coming soon ...)
+
+And run this command
+
+```bash
+opencpu::install_apps("niio972/compareVariablesDemo")
+```
+or you can connect to the docker container :
+```bash
+docker exec -i -t container_name /bin/bash
+# switch to non root user
+su opencpu
+# install package
+R -e 'opencpu::install_apps("niio972/compareVariablesDemo")'
+```
+
 
 # 4. How to move an R package from host to container {host_scripts_path} and install it
 
-- example :
+## 4.1 From github account (recommended way)
+
+You can connect to the http://{serverIp}:8004/rstudio your favorite R IDE
+
+The default password is __opencpu__ but it can be modified. (coming soon ...)
+
+And run this command
 
 ```bash
-install.packages("/home/opencpu/scripts/webapp_0.1.1.tar.gz",repos=NULL,type ="source")
+opencpu::install_apps("niio972/compareVariablesDemo")
+```
+or you can connect to the docker container :
+```bash
+docker exec -i -t container_name /bin/bash
+# switch to non root user
+su opencpu
+# install package
+R -e 'opencpu::install_apps("niio972/compareVariablesDemo")'
+```
+
+## 4.1 From local directory inside the container (See 3.2 step comments before)
+If you have set a link between {host_scripts_path} and /home/opencpu/scripts.
+You can move your archive in {host_scripts_path} in order to be able to access
+it in the container.
+
+Now can connect to the docker container and install your package :
+```bash
+docker exec -i -t container_name /bin/bash
+# switch to non root user
+su opencpu
+# install package
+R -e 'install.packages("/home/opencpu/scripts/webapp_0.1.1.tar.gz",repos=NULL,type ="source")'
 ```
 
 # To uninstall docker :  https://docs.docker.com/install/linux/docker-ce/debian/#uninstall-docker-ce
