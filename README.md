@@ -1,8 +1,17 @@
-# 1. Install docker 
+This readme allows you to install a docker image of openCPU which contains
+a demo app and the latest version of phisWSClientR package.
 
-Follow the [Installation guide](https://docs.docker.com/install/linux/docker-ce/debian/#install-docker-ce-1). *(recommended)*
+``Prerequisites` :
+
+- Access to root account
+- Able to use the 8004
+
+# 1. Install docker
+
+Follow the [Installation guide](https://docs.docker.com/install/linux/docker-ce/debian/#install-docker-ce-1). _(recommended)_
 
 ## 1.1. Installation version dated from 2019-02-13 (refer to the previous link)
+
 ```bash
  sudo apt-get update
 
@@ -15,6 +24,7 @@ Follow the [Installation guide](https://docs.docker.com/install/linux/docker-ce/
 ```
 
 ## 1.2. Add Docker’s official GPG key:
+
 ```bash
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
 
@@ -28,6 +38,7 @@ sub   4096R/F273FCD8 2017-02-22
 ```
 
 ## 1.3. Use the following command to set up the stable repository.
+
 ```bash
 sudo add-apt-repository \
    "deb [arch=amd64] https://download.docker.com/linux/debian \
@@ -37,34 +48,35 @@ sudo add-apt-repository \
 ```
 
 ## 1.4. Install docker
+
 ```bash
 sudo apt-get update
 
 sudo apt-get install docker-ce docker-ce-cli containerd.io
 ```
 
-## 1.4. Configure Docker as non root user 
-
+## 1.4. Configure Docker as non root user
 
 ```bash
 # create docker group it doesn't exist
 sudo groupadd docker
 ```
+
 ```bash
-# put phis user in  docker group 
+# put phis user in  docker group
 user=phis
-sudo usermod -aG docker $user 
+sudo usermod -aG docker $user
 # $USER means the connected user
 # if is different from phis user run the following commands
 # sudo usermod -aG docker $USER
 ```
 
-*Log out and log back in so that your group membership is re-evaluated.*
+_Log out and log back in so that your group membership is re-evaluated._
 
 For more information go to https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-root-user
 
-
 ## 1.5. Enable docker service at startup
+
 ```bash
 sudo systemctl enable docker
 ```
@@ -72,6 +84,7 @@ sudo systemctl enable docker
 ## 1.6. Configure Docker DNS which allows docker containers it to connect to internet
 
 ### 1.6.1 Get servver DNS configuration
+
 #### 1.6.1.1. for ubuntu
 
 Run the following command :
@@ -120,11 +133,15 @@ service docker restart
 # 2. Run docker container
 
 ## 2.1 Build docker image
+
 ```bash
 docker build --no-cache https://github.com/OpenSILEX/opensilex-opencpu-docker.git -t opensilex/opencpu
 ```
+
 ##2.2 Run docker image
+
 - example :
+
 ```bash
 docker run -d -t -p 8004:8004  --name=opensilex-ocpu opensilex/opencpu:latest
 # or
@@ -132,7 +149,7 @@ docker run -d -t -p 8004:8004  --name=opensilex-ocpu opensilex/opencpu:latest
 # docker run -v {host_scripts_path}:/home/opencpu/scripts --name opencpu-server -t -p 8004:8004 opencpu/rstudio
 ```
 
-``By default, the docker file already contains "opensilex/opensilex-datavis-rapp-demo" application and "phisWSClientR" package.``
+`By default, the docker file already contains "opensilex/opensilex-datavis-rapp-demo" application and "phisWSClientR" package.`
 
 #2.3 Test demo application
 
@@ -140,18 +157,39 @@ You can now go to : http://localhost:8004/ocpu/apps/opensilex/opensilex-datavis-
 
 You will able to try the demo R application.
 
+#2.4 Stop docker container
+Run in terminal : 
+```
+docker stop opensilex-ocpu
+```
+
+#2.5 Start docker container
+Run in terminal : 
+```
+docker start opensilex-ocpu
+```
+
+#2.6 Remove docker container
+Run in terminal : 
+```
+docker stop opensilex-ocpu
+docker rm opensilex-ocpu
+```
+
 # 3. How to install a custom openCPU application
 
-You can connect to the ```http://{serverIp}:8004/rstudio``` your favorite R IDE
+You can connect to the `http://{serverIp}:8004/rstudio` your favorite R IDE
 
-The default password is __opencpu__ but it can be modified. (coming soon ...)
+The default password is **opencpu** but it can be modified. (coming soon ...)
 
 And run this command
 
 ```bash
 opencpu::install_apps("opensilex/opensilex-datavis-rapp-demo")
 ```
+
 or you can connect to the docker container :
+
 ```bash
 docker exec -i -t container_name /bin/bash
 # switch to non root user
@@ -165,16 +203,18 @@ R -e 'opencpu::install_apps("opensilex/opensilex-datavis-rapp-demo")'
 
 ## 4.1 From github account (recommended way)
 
-You can connect to the ```http://{serverIp}:8004/rstudio``` your favorite R IDE
+You can connect to the `http://{serverIp}:8004/rstudio` your favorite R IDE
 
-The default password is __opencpu__ but it can be modified. (coming soon ...)
+The default password is **opencpu** but it can be modified. (coming soon ...)
 
 And run this command
 
 ```bash
 opencpu::install_github("opensilex/phisWSClientR")
 ```
+
 or you can connect to the docker container :
+
 ```bash
 docker exec -i -t container_name /bin/bash
 # switch to non root user
@@ -184,11 +224,13 @@ R -e 'opencpu::install_apps("opensilex/phisWSClientR")'
 ```
 
 ## 4.1 From local directory inside the container (See 3.2 step comments before)
-If you have set a link between ```{host_scripts_path}``` and ```/home/opencpu/scripts```.
-You can move your R package archive (tar.gz) in ```{host_scripts_path}``` in order to be able to access
+
+If you have set a link between `{host_scripts_path}` and `/home/opencpu/scripts`.
+You can move your R package archive (tar.gz) in `{host_scripts_path}` in order to be able to access
 it in the container.
 
 Now can connect to the docker container and install your package from the source :
+
 ```bash
 docker exec -i -t container_name /bin/bash
 # switch to non root user
@@ -197,7 +239,8 @@ su opencpu
 R -e 'install.packages("/home/opencpu/scripts/phisWSClientR_1.2.0.tar.gz",repos=NULL,type ="source")'
 ```
 
-# To uninstall docker : 
+# To uninstall docker :
+
 Follow instructions at :
 
-``` https://docs.docker.com/install/linux/docker-ce/debian/#uninstall-docker-ce```
+`https://docs.docker.com/install/linux/docker-ce/debian/#uninstall-docker-ce`
