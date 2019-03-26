@@ -1,12 +1,12 @@
 This readme allows you to install a docker image of openCPU which contains
 a demo app and the latest version of phisWSClientR package.
 
-``Prerequisites` :
+``Prerequisites`` :
 
 - Access to root account
 - Able to use the 8004
 
-# 1. Install docker
+# 1. Install docker (If docker is already installed go to step 1.4)
 
 Follow the [Installation guide](https://docs.docker.com/install/linux/docker-ce/debian/#install-docker-ce-1). _(recommended)_
 
