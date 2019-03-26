@@ -47,11 +47,11 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io
 
 
 ```bash
-# create docker group if not
+# create docker group it doesn't exist
 sudo groupadd docker
 ```
 ```bash
-# put phis user in groupe docker
+# put phis user in  docker group 
 user=phis
 sudo usermod -aG docker $user 
 # $USER means the connected user
@@ -121,7 +121,7 @@ service docker restart
 
 ## 2.1 Build docker image
 ```bash
-docker build --no-cache https://github.com/niio972/ocpu-docker.git -t opensilex/opencpu
+docker build --no-cache https://github.com/OpenSILEX/opensilex-opencpu-docker.git -t opensilex/opencpu
 ```
 
 ## 2.2 Run docker image
@@ -134,14 +134,14 @@ docker run -d -t -p 8004:8004  --name=opensilex-ocpu opensilex/opencpu:latest
 ```
 # 3. How to install an openCPU application
 
-You can connect to the http://{serverIp}:8004/rstudio your favorite R IDE
+You can connect to the ```http://{serverIp}:8004/rstudio``` your favorite R IDE
 
 The default password is __opencpu__ but it can be modified. (coming soon ...)
 
 And run this command
 
 ```bash
-opencpu::install_apps("niio972/compareVariablesDemo")
+opencpu::install_apps("opensilex/opensilex-datavis-rapp-demo")
 ```
 or you can connect to the docker container :
 ```bash
@@ -149,7 +149,7 @@ docker exec -i -t container_name /bin/bash
 # switch to non root user
 su opencpu
 # install package
-R -e 'opencpu::install_apps("niio972/compareVariablesDemo")'
+R -e 'opencpu::install_apps("opensilex/opensilex-datavis-rapp-demo")'
 ```
 
 
@@ -157,14 +157,14 @@ R -e 'opencpu::install_apps("niio972/compareVariablesDemo")'
 
 ## 4.1 From github account (recommended way)
 
-You can connect to the http://{serverIp}:8004/rstudio your favorite R IDE
+You can connect to the ```http://{serverIp}:8004/rstudio``` your favorite R IDE
 
 The default password is __opencpu__ but it can be modified. (coming soon ...)
 
 And run this command
 
 ```bash
-opencpu::install_apps("niio972/compareVariablesDemo")
+opencpu::install_apps("opensilex/opensilex-datavis-rapp-demo")
 ```
 or you can connect to the docker container :
 ```bash
@@ -172,12 +172,12 @@ docker exec -i -t container_name /bin/bash
 # switch to non root user
 su opencpu
 # install package
-R -e 'opencpu::install_apps("niio972/compareVariablesDemo")'
+R -e 'opencpu::install_apps("opensilex/opensilex-datavis-rapp-demo")'
 ```
 
-## 4.1 From local directory inside the container (See 3.2 step comments before)
-If you have set a link between {host_scripts_path} and /home/opencpu/scripts.
-You can move your archive in {host_scripts_path} in order to be able to access
+<!-- ## 4.1 From local directory inside the container (See 3.2 step comments before)
+If you have set a link between ```{host_scripts_path}``` and ```/home/opencpu/scripts```.
+You can move your archive in ```{host_scripts_path}``` in order to be able to access
 it in the container.
 
 Now can connect to the docker container and install your package :
@@ -187,6 +187,9 @@ docker exec -i -t container_name /bin/bash
 su opencpu
 # install package
 R -e 'install.packages("/home/opencpu/scripts/webapp_0.1.1.tar.gz",repos=NULL,type ="source")'
-```
+``` -->
 
-# To uninstall docker :  https://docs.docker.com/install/linux/docker-ce/debian/#uninstall-docker-ce
+# To uninstall docker : 
+Follow instructions at :
+
+``` https://docs.docker.com/install/linux/docker-ce/debian/#uninstall-docker-ce```
