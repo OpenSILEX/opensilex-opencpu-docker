@@ -153,7 +153,7 @@ R -e 'opencpu::install_apps("opensilex/opensilex-datavis-rapp-demo")'
 ```
 
 
-# 4. How to move an R package from host to container {host_scripts_path} and install it
+# 4. How install an R web application
 
 ## 4.1 From github account (recommended way)
 
