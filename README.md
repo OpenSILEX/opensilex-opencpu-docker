@@ -123,8 +123,7 @@ service docker restart
 ```bash
 docker build --no-cache https://github.com/OpenSILEX/opensilex-opencpu-docker.git -t opensilex/opencpu
 ```
-
-## 2.2 Run docker image
+##2.2 Run docker image
 - example :
 ```bash
 docker run -d -t -p 8004:8004  --name=opensilex-ocpu opensilex/opencpu:latest
@@ -134,6 +133,12 @@ docker run -d -t -p 8004:8004  --name=opensilex-ocpu opensilex/opencpu:latest
 ```
 
 ``By default, the docker file already contains "opensilex/opensilex-datavis-rapp-demo" application and "phisWSClientR" package.``
+
+#2.3 Test demo application
+
+You can now go to : http://localhost:8004/ocpu/apps/opensilex/opensilex-datavis-rapp-demo/www/ .
+
+You will able to try the demo R application.
 
 # 3. How to install a custom openCPU application
 
