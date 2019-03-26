@@ -161,12 +161,12 @@ You can connect to the ```http://{serverIp}:8004/rstudio``` your favorite R IDE
 
 The default password is __opencpu__ but it can be modified. (coming soon ...)
 
-And run this command
+And execute this command :
 
 ```bash
 opencpu::install_apps("opensilex/opensilex-datavis-rapp-demo")
 ```
-or you can connect to the docker container :
+or you can connect to the docker container using a terminal :
 ```bash
 docker exec -i -t container_name /bin/bash
 # switch to non root user
