@@ -132,7 +132,10 @@ docker run -d -t -p 8004:8004  --name=opensilex-ocpu opensilex/opencpu:latest
 # if you want to link a host folder and container folder
 # docker run -v {host_scripts_path}:/home/opencpu/scripts --name opencpu-server -t -p 8004:8004 opencpu/rstudio
 ```
-# 3. How to install an openCPU application
+
+``By default, the docker file already contains "opensilex/opensilex-datavis-rapp-demo" application and "phisWSClientR" package.``
+
+# 3. How to install a custom openCPU application
 
 You can connect to the ```http://{serverIp}:8004/rstudio``` your favorite R IDE
 
@@ -153,7 +156,7 @@ R -e 'opencpu::install_apps("opensilex/opensilex-datavis-rapp-demo")'
 ```
 
 
-# 4. How install an R web application
+# 4. How to move an R package from host to container {host_scripts_path} and install it
 
 ## 4.1 From github account (recommended way)
 
@@ -161,33 +164,33 @@ You can connect to the ```http://{serverIp}:8004/rstudio``` your favorite R IDE
 
 The default password is __opencpu__ but it can be modified. (coming soon ...)
 
-And execute this command :
+And run this command
 
 ```bash
-opencpu::install_apps("opensilex/opensilex-datavis-rapp-demo")
+opencpu::install_github("opensilex/phisWSClientR")
 ```
-or you can connect to the docker container using a terminal :
+or you can connect to the docker container :
 ```bash
 docker exec -i -t container_name /bin/bash
 # switch to non root user
 su opencpu
 # install package
-R -e 'opencpu::install_apps("opensilex/opensilex-datavis-rapp-demo")'
+R -e 'opencpu::install_apps("opensilex/phisWSClientR")'
 ```
 
-<!-- ## 4.1 From local directory inside the container (See 3.2 step comments before)
+## 4.1 From local directory inside the container (See 3.2 step comments before)
 If you have set a link between ```{host_scripts_path}``` and ```/home/opencpu/scripts```.
-You can move your archive in ```{host_scripts_path}``` in order to be able to access
+You can move your R package archive (tar.gz) in ```{host_scripts_path}``` in order to be able to access
 it in the container.
 
-Now can connect to the docker container and install your package :
+Now can connect to the docker container and install your package from the source :
 ```bash
 docker exec -i -t container_name /bin/bash
 # switch to non root user
 su opencpu
 # install package
-R -e 'install.packages("/home/opencpu/scripts/webapp_0.1.1.tar.gz",repos=NULL,type ="source")'
-``` -->
+R -e 'install.packages("/home/opencpu/scripts/phisWSClientR_1.2.0.tar.gz",repos=NULL,type ="source")'
+```
 
 # To uninstall docker : 
 Follow instructions at :
