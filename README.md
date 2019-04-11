@@ -58,7 +58,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io
 ## 1.4. Configure Docker as non root user
 
 ```bash
-# create docker group it doesn't exist
+# create docker group if it doesn't exist
 sudo groupadd docker
 ```
 
@@ -67,8 +67,13 @@ sudo groupadd docker
 user=phis
 sudo usermod -aG docker $user
 # $USER means the connected user
-# if is different from phis user run the following commands
+# if the connected user is different from phis user, run the following commands
 # sudo usermod -aG docker $USER
+```
+
+```bash
+# check docker group users
+grep /etc/group -e "docker"
 ```
 
 _Log out and log back in so that your group membership is re-evaluated._
@@ -158,19 +163,19 @@ You can now go to : http://localhost:8004/ocpu/apps/opensilex/opensilex-datavis-
 You will able to try the demo R application.
 
 #2.4 Stop docker container
-Run in terminal : 
+Run in terminal :
 ```
 docker stop opensilex-ocpu
 ```
 
 #2.5 Start docker container
-Run in terminal : 
+Run in terminal :
 ```
 docker start opensilex-ocpu
 ```
 
 #2.6 Remove docker container
-Run in terminal : 
+Run in terminal :
 ```
 docker stop opensilex-ocpu
 docker rm opensilex-ocpu
