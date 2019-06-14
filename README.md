@@ -1,8 +1,17 @@
-# 1. Install docker 
+This readme allows you to install a docker image of openCPU which contains
+a demo app and the latest version of phisWSClientR package.
 
-Follow the [Installation guide](https://docs.docker.com/install/linux/docker-ce/debian/#install-docker-ce-1).
+``Prerequisites`` :
+
+- Access to root account
+- Able to use the 8004
+
+# 1. Install docker (If docker is already installed go to step 1.4)
+
+Follow the [Installation guide](https://docs.docker.com/install/linux/docker-ce/debian/#install-docker-ce-1). _(recommended)_
 
 ## 1.1. Installation version dated from 2019-02-13 (refer to the previous link)
+
 ```bash
  sudo apt-get update
 
@@ -15,7 +24,11 @@ Follow the [Installation guide](https://docs.docker.com/install/linux/docker-ce/
 ```
 
 ## 1.2. Add Docker’s official GPG key:
+
 ```bash
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+
+# check GPG key
 sudo apt-key fingerprint 0EBFCD88
 
 pub   4096R/0EBFCD88 2017-02-22
@@ -25,31 +38,59 @@ sub   4096R/F273FCD8 2017-02-22
 ```
 
 ## 1.3. Use the following command to set up the stable repository.
+
 ```bash
 sudo add-apt-repository \
    "deb [arch=amd64] https://download.docker.com/linux/debian \
    $(lsb_release -cs) \
    stable"
+
 ```
 
-## 1.4. Configure Docker as non root user 
-user=phis
+## 1.4. Install docker
 
 ```bash
+sudo apt-get update
+
+sudo apt-get install docker-ce docker-ce-cli containerd.io
+```
+
+## 1.4. Configure Docker as non root user
+
+```bash
+# create docker group it doesn't exist
 sudo groupadd docker
 ```
-```
+
+```bash
+# put phis user in  docker group
+user=phis
 sudo usermod -aG docker $user
-sudo chown $user:$user /home/$user/.docker -R
-sudo chmod g+rwx /home/"$user"/.docker" -R
+# $USER means the connected user
+# if is different from phis user run the following commands
+# sudo usermod -aG docker $USER
 ```
 
-## 1.5. Configure to start 
+_Log out and log back in so that your group membership is re-evaluated._
+or use :
+
+```bash
+newgrp docker
+```
+
+For more information go to https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-root-user
+
+## 1.5. Enable docker service at startup
+
+```bash
 sudo systemctl enable docker
+```
 
-# 2. Configure Docker DNS 
+## 1.6. Configure Docker DNS which allows docker containers it to connect to internet
 
-## 2.1. for ubuntu
+### 1.6.1 Get servver DNS configuration
+
+#### 1.6.1.1. for ubuntu
 
 Run the following command :
 
@@ -64,7 +105,7 @@ IP4.DNS[1]:                             147.99.0.248
 IP4.DNS[2]:                             147.99.0.249
 ```
 
-## 2.2. for debian
+#### 1.6.1.2 for debian
 
 ```bash
 more  /etc/resolv.conf
@@ -73,79 +114,162 @@ nameserver 138.102.210.7
 nameserver 147.100.166.31
 ```
 
-## 2.3. Connect with root account
+### 1.6.2. Connect with root account and set right docker DNS
 
 ```bash
 sudo su
 ```
 
-## 2.4. Set right docker DNS
+#### 1.6.2.1 Set right docker DNS ([Informtations about DNS configuration]([https://link](https://stackoverflow.com/questions/49998099/dns-not-working-within-docker-containers-when-host-uses-dnsmasq-and-googles-dns/50001940#50001940)))
 
+#### 1.6.2.2 Specific step for Ubuntu system (network configuration)
 ```bash
-sudo su
-echo "{\"dns\": [\"YOUR_DNS_1_IP_HERE\", \"YOUR_DNS_2_IP_HERE\"]}" > /etc/docker/daemon.json
+#A clean solution is to configure docker+dnsmasq so than DNS #requests from the docker container are forwarded to the dnsmasq #daemon running on the host.
+
+#For that, you need to configure dnsmasq to listen to the network #interface used by docker, by adding a file /etc/NetworkManager/#dnsmasq.d/docker-bridge.conf:
+
+touch /etc/NetworkManager/dnsmasq.d/docker-bridge.conf
+
+echo "listen-address=172.17.0.1" > /etc/NetworkManager/dnsmasq.d/docker-bridge.conf
+
+sudo service network-manager restart
 ```
 
-- daemon.json file content example :
+#### 1.6.2.3 Step for Ubuntu or Debian system (docker dns configuration)
+
+```bash
+#You can add 172.17.0.1, i.e. the host's IP #address from within docker, to the list of DNS servers in docker's configuration file.
+
+echo "{\"dns\": [\"172.17.0.1\",\"YOUR_DNS_1_IP_HERE\", \"YOUR_DNS_2_IP_HERE\", \"OTHER_DNS_IP_HERE\",....]}" > /etc/docker/daemon.json
+```
+
+- **daemon.json file content** example :
 
 ```json
 {
-  "dns": ["147.99.0.248", "147.99.0.249"]
+  "dns": ["172.17.0.1","147.100.116.5", "147.100.126.4"]
 }
 ```
 
-## 2.5. restart docker and from root:
+## 1.6.3. restart docker and from root:
 
 ```bash
- service docker restart
-
- exit
+service docker restart
 ```
 
-<!-- # Configure apache
+# 2. Run docker container
 
-sudo a2enmod proxy proxy_http
+## 2.1 Build docker image
 
-
-cd /etc/apache2/sites-available
-
-nano opcu.conf
+``docker build --no-cache {repository or local directory} -t opensilex/opencpu``
 
 ```bash
-   <VirtualHost *:80>
-      ServerName 138.102.159.37 # Adresse principale 
-      ServerAlias 138.102.159.37 # Aliases du domaine, si l'adresse ou les adresses sont utilisée, on pointe au même endroit, facultatif
-   # ServerAdmin postmaster@domaine1.example # Adresse email de l'admin du domaine, facultatif
-      #DocumentRoot /var/www/domaine1.example # Répertoire où pointe le domaine
-      ProxyPass / http://138.102.159.37:8004/
-      ProxyPassReverse / http://138.102.159.37:8004/
-      ProxyPreserveHost On
-   </VirtualHost>
-``` -->
-
-
-# 3. Run docker container
-
-## 3.1 Build docker image
-```bash
-   docker build --no-cache https://github.com/niio972/ocpu-docker.git -t opensilex/opencpu
+docker build --no-cache https://github.com/OpenSILEX/opensilex-opencpu-docker.git -t opensilex/opencpu
 ```
 
-## 3.2 Run docker image
+##2.2 Run docker image
+
 - example :
+
 ```bash
-docker run -d -t -p 8004:8004  --name=opensilex-ocpu opensilex/opencpu:latest
+docker run -d -t -p 8004:8004 -e USER_PASSWORD=secret --name=opensilex-ocpu opensilex/opencpu:latest
 # or
 # if you want to link a host folder and container folder
 # docker run -v {host_scripts_path}:/home/opencpu/scripts --name opencpu-server -t -p 8004:8004 opencpu/rstudio
 ```
 
-# 4. How to move an R package from host to container {host_scripts_path} and install it
+`By default, the docker file already contains "opensilex/opensilex-datavis-rapp-demo" application and "phisWSClientR" package.`
 
-- example :
+#2.3 Test demo application
 
-```bash
-install.packages("/home/opencpu/scripts/webapp_0.1.1.tar.gz",repos=NULL,type ="source")
+You can now go to : http://localhost:8004/ocpu/apps/opensilex/opensilex-datavis-rapp-demo/www/ .
+
+You will able to try the demo R application.
+
+#2.4 Stop docker container
+Run in terminal : 
+```
+docker stop opensilex-ocpu
 ```
 
-# To uninstall docker :  https://docs.docker.com/install/linux/docker-ce/debian/#uninstall-docker-ce
+#2.5 Start docker container
+Run in terminal : 
+```
+docker start opensilex-ocpu
+```
+
+#2.6 Remove docker container
+Run in terminal : 
+```
+docker stop opensilex-ocpu
+docker rm opensilex-ocpu
+```
+
+# 3. How to install a custom openCPU application
+
+You can connect to the `http://{serverIp}:8004/rstudio` your favorite R IDE
+
+The default password is **opencpu** but it can be modified. (coming soon ...)
+
+And run this command
+
+```bash
+opencpu::install_apps("opensilex/opensilex-datavis-rapp-demo")
+```
+
+or you can connect to the docker container :
+
+```bash
+docker exec -i -t container_name /bin/bash
+# switch to non root user
+su opencpu
+# install package
+R -e 'opencpu::install_apps("opensilex/opensilex-datavis-rapp-demo")'
+```
+
+
+# 4. How to move an R package from host to container {host_scripts_path} and install it
+
+## 4.1 From github account (recommended way)
+
+You can connect to the `http://{serverIp}:8004/rstudio` your favorite R IDE
+
+The default password is **opencpu** but it can be modified. (coming soon ...)
+
+And run this command
+
+```bash
+opencpu::install_github("opensilex/phisWSClientR")
+```
+
+or you can connect to the docker container :
+
+```bash
+docker exec -i -t container_name /bin/bash
+# switch to non root user
+su opencpu
+# install package
+R -e 'opencpu::install_apps("opensilex/phisWSClientR")'
+```
+
+## 4.1 From local directory inside the container (See 3.2 step comments before)
+
+If you have set a link between `{host_scripts_path}` and `/home/opencpu/scripts`.
+You can move your R package archive (tar.gz) in `{host_scripts_path}` in order to be able to access
+it in the container.
+
+Now can connect to the docker container and install your package from the source :
+
+```bash
+docker exec -i -t container_name /bin/bash
+# switch to non root user
+su opencpu
+# install package
+R -e 'install.packages("/home/opencpu/scripts/phisWSClientR_1.2.0.tar.gz",repos=NULL,type ="source")'
+```
+
+# To uninstall docker :
+
+Follow instructions at :
+
+`https://docs.docker.com/install/linux/docker-ce/debian/#uninstall-docker-ce`

@@ -1,12 +1,25 @@
+
 # Use builds from launchpad
 FROM opencpu/rstudio
+
+# default password
+ENV USER_PASSWORD=opencpu
 
 RUN apt-get update
 
 RUN apt-get install -y libgit2-dev 
 
-RUN R -e 'remotes::install_github("niio972/phisWSClientR", build_vignettes=TRUE)'
+# custom password on run
+RUN echo "opencpu:${USER_PASSWORD}"| chpasswd
 
-RUN R -e 'opencpu::install_apps("niio972/variablesStudy")'
+USER opencpu
+
+# R client
+RUN R -e 'remotes::install_github("OpenSILEX/phisWSClientR", build_vignettes=TRUE,ref="v1.3.0",upgrade ="always")'
+
+# example application
+RUN R -e 'opencpu::install_apps("OpenSILEX/opensilex-datavis-rapp-demo")'
+
+USER root
 
 EXPOSE 8004/tcp
