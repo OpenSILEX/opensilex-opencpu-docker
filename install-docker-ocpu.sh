@@ -22,7 +22,7 @@ usage()
 {
     echo "Description : install docker configure it for the current user and install opencpu docker"
     echo "Required dependencies on Debian : sudo (apt-get install sudo)"
-    echo "Usage: install-docker-ocpu [ 
+    echo "Usage: install-docker-ocpu.sh [ 
             [-i --install-all docker-rstudio-password]  
             [-d --install-docker ] # installation doc date : 14/06/2019
             [-c --configure-docker] 
