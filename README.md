@@ -58,7 +58,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io
 ## 1.4. Configure Docker as non root user
 
 ```bash
-# create docker group it doesn't exist
+# create docker group if it doesn't exist
 sudo groupadd docker
 ```
 
@@ -114,12 +114,6 @@ nameserver 138.102.210.7
 nameserver 147.100.166.31
 ```
 
-### 1.6.2. Connect with root account and set right docker DNS
-
-```bash
-sudo su
-```
-
 #### 1.6.2.1 Set right docker DNS ([Informtations about DNS configuration]([https://link](https://stackoverflow.com/questions/49998099/dns-not-working-within-docker-containers-when-host-uses-dnsmasq-and-googles-dns/50001940#50001940)))
 
 #### 1.6.2.2 Specific step for Ubuntu system (network configuration)
@@ -128,7 +122,7 @@ sudo su
 
 #For that, you need to configure dnsmasq to listen to the network #interface used by docker, by adding a file /etc/NetworkManager/#dnsmasq.d/docker-bridge.conf:
 
-touch /etc/NetworkManager/dnsmasq.d/docker-bridge.conf
+sudo touch /etc/NetworkManager/dnsmasq.d/docker-bridge.conf
 
 echo "listen-address=172.17.0.1" > /etc/NetworkManager/dnsmasq.d/docker-bridge.conf
 
@@ -238,8 +232,8 @@ The default password is **opencpu** but it can be modified. (coming soon ...)
 
 And run this command
 
-```bash
-opencpu::install_github("opensilex/phisWSClientR")
+```R
+remotes::install_github("openSILEX/phisWSClientR", build_vignettes=TRUE, ref="v1.3.0", upgrade ="always")
 ```
 
 or you can connect to the docker container :
@@ -249,7 +243,7 @@ docker exec -i -t container_name /bin/bash
 # switch to non root user
 su opencpu
 # install package
-R -e 'opencpu::install_apps("opensilex/phisWSClientR")'
+R -e 'remotes::install_github("openSILEX/phisWSClientR", build_vignettes=TRUE,ref="v1.3.0",upgrade ="always")'
 ```
 
 ## 4.1 From local directory inside the container (See 3.2 step comments before)
@@ -265,7 +259,7 @@ docker exec -i -t container_name /bin/bash
 # switch to non root user
 su opencpu
 # install package
-R -e 'install.packages("/home/opencpu/scripts/phisWSClientR_1.2.0.tar.gz",repos=NULL,type ="source")'
+R -e 'install.packages("/home/opencpu/scripts/phisWSClientR_1.3.0.tar.gz",repos=NULL,type ="source")'
 ```
 
 # To uninstall docker :
