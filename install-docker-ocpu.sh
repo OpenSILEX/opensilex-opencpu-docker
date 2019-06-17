@@ -119,10 +119,10 @@ configure_docker_daemon()
 
     if [ -f /etc/docker/daemon.json ]; then
        sudo mv /etc/docker/daemon.json /etc/docker/daemon.json.bak
-       sudo touch  /etc/docker/daemon.json
     fi
+    sudo touch  /etc/docker/daemon.json
 
-     echo $dockerDaemonConfig | sudo  tee -a /etc/docker/daemon.json  > /dev/null
+    echo $dockerDaemonConfig | sudo  tee -a /etc/docker/daemon.json  > /dev/null
 
 }
 
