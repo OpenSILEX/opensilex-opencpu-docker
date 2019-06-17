@@ -4,10 +4,9 @@ image: docker:18.09
 stages:
   - build
 
-before_script:
-    - apt-get update && apt-get install sudo -y
-
 build1:
   stage: build
   script:
-    - . install-docker-ocpu.sh -o 
+    - docker build --no-cache https://github.com/OpenSILEX/opensilex-opencpu-docker.git -t opensilex/opencpu
+    - docker run -d -t -p 8004:8004 --name=opensilex-ocpu opensilex/opencpu:latest
+      
