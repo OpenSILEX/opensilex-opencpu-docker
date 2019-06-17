@@ -1,0 +1,16 @@
+
+# you can delete this line if you're not using Docker
+image: debian
+
+stages:
+  - build
+
+before_script:
+    - apt-get update && apt-get install sudo -y
+
+build1:
+  stage: build
+  script:
+    - . install-docker-ocpu.sh -d 
+    - . install-docker-ocpu.sh -c 
+    - . install-docker-ocpu.sh -o 
