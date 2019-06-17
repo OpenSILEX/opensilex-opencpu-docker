@@ -7,6 +7,6 @@ stages:
 build1:
   stage: build
   script:
-    - docker build --no-cache https://github.com/OpenSILEX/opensilex-opencpu-docker.git -t opensilex/opencpu
+    - docker build --no-cache . -t opensilex/opencpu
     - docker run -d -t -p 8004:8004 --name=opensilex-ocpu opensilex/opencpu:latest
       
