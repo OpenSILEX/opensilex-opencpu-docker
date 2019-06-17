@@ -1,4 +1,3 @@
-
 # you can delete this line if you're not using Docker
 image: debian
 
@@ -12,5 +11,4 @@ build1:
   stage: build
   script:
     - . install-docker-ocpu.sh -d 
-    - . install-docker-ocpu.sh -c 
     - . install-docker-ocpu.sh -o 
