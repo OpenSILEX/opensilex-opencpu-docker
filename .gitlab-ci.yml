@@ -1,5 +1,5 @@
 # you can delete this line if you're not using Docker
-image: debian
+image: docker:18.09
 
 stages:
   - build
@@ -10,5 +10,4 @@ before_script:
 build1:
   stage: build
   script:
-    - . install-docker-ocpu.sh -d 
     - . install-docker-ocpu.sh -o 
