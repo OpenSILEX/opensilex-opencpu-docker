@@ -1,5 +1,5 @@
 # you can delete this line if you're not using Docker
-image: docker:18
+image: docker:dind
 
 stages:
   - build
