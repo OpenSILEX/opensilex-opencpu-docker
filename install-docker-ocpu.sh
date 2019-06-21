@@ -112,7 +112,7 @@ configure_docker_daemon()
 
     for addr in $ipAddress
     do
-        dockerDaemonConfig="$dockerDaemonConfig], [$addr"
+        dockerDaemonConfig="$dockerDaemonConfig], [\"$addr\""
     done
 
     dockerDaemonConfig="$dockerDaemonConfig]}"
@@ -187,7 +187,7 @@ if [ "$1" == "" ]; then
                                 ;;
             -d | --install-docker ) install_docker
                                 ;;
-            -c | --configure-docker ) install_docker_ocpu
+            -c | --configure-docker ) configure_docker_environment
                                 ;;
             -u | --docker-dns-reconfigure ) configure_docker_daemon
                                 ;;
