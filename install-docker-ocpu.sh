@@ -23,11 +23,12 @@ usage()
     echo "Description : install docker configure it for the current user and install opencpu docker"
     echo "Required dependencies on Debian : sudo (apt-get install sudo)"
     echo "Usage: install-docker-ocpu.sh [ 
-            [-i --install-all docker-rstudio-password]  
-            [-d --install-docker ] # installation doc date : 14/06/2019
-            [-c --configure-docker] 
-            [-u --docker-dns-reconfigure] 
-            [-o --install-ocpu-docker-with-password docker-rstudio-password]
+            [-i --install-all docker-rstudio-password]  regroup all other functions
+            [-d --install-docker ] For Ubuntu and Debian - installation doc date : 14/06/2019
+            [-c --configure-docker] For Ubuntu and Debian  
+            [-u --docker-dns-reconfigure] For Ubuntu and Debian 
+            [-n --configure-network] # add 172.17.0.1 to dnsmasq for Ubuntu only
+            [-o --install-ocpu-docker-with-password docker-rstudio-password] For Ubuntu and Debian
             [-h --help]
           ]"
     echo "Example : install-docker-ocpu"
@@ -95,6 +96,7 @@ configure_docker(){
 # configure docker dns for a computer
 configure_docker_daemon()
 {
+    info_message "Configure docker daemon" 
 
     # check distribution and get server dns address
     if [[ $linuxDistribution == *"Debian"* ]]; then 
@@ -108,11 +110,11 @@ configure_docker_daemon()
     ipAddress=$(echo $rawIpAddress | tr ";" "\n")
 
     #create docker daemon config file
-    dockerDaemonConfig="{\"dns: \"[\"172.17.0.1\""
+    dockerDaemonConfig="{\"dns\": [\"172.17.0.1\""
 
     for addr in $ipAddress
     do
-        dockerDaemonConfig="$dockerDaemonConfig], [\"$addr\""
+        dockerDaemonConfig="$dockerDaemonConfig, \"$addr\""
     done
 
     dockerDaemonConfig="$dockerDaemonConfig]}"
@@ -122,11 +124,15 @@ configure_docker_daemon()
        sudo touch  /etc/docker/daemon.json
     fi
 
-     echo $dockerDaemonConfig | sudo  tee -a /etc/docker/daemon.json  > /dev/null
+    info_message "Configure /etc/docker/daemon.json with computer DNS"
+    echo $dockerDaemonConfig | sudo  tee -a /etc/docker/daemon.json  > /dev/null
 
+    info_message "Reload docker service"
+    sudo service docker restart
 }
 
-configure_networking(){
+configure_network(){
+    info_message "Configure network" 
     if [[ $linuxDistribution == *"Ubuntu"* ]]; then 
         if [ ! -f /etc/NetworkManager/dnsmasq.d/docker-bridge.conf ]; then
             sudo touch /etc/NetworkManager/dnsmasq.d/docker-bridge.conf
@@ -162,10 +168,7 @@ configure_docker_environment()
 {
     info_message "Configure docker for $(whoami) user." 
     configure_docker
-    info_message "Configure docker daemon" 
-    configure_docker_daemon
-    info_message "Configure network" 
-    configure_networking
+
     info_message "You need to log off and login before launch the last step `install_ocpu`" 
 }
 
@@ -191,6 +194,8 @@ if [ "$1" == "" ]; then
                                 ;;
             -u | --docker-dns-reconfigure ) configure_docker_daemon
                                 ;;
+            -n | --configure-network ) configure_network
+                                ;;
             -o | --install-ocpu-docker-with-password ) shift 
                                 userpassword=$1
                                 install_ocpu
@@ -203,5 +208,6 @@ if [ "$1" == "" ]; then
     done
 fi
 
+    
 
 

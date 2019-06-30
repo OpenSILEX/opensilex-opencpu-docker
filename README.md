@@ -8,34 +8,34 @@ a demonstration [R web application](https://www.opencpu.org/apps.html) and the l
 
 <!-- TOC -->
 
-- [1. Install automatically with install-docker-ocpu.sh script](#1-install-automatically-with-install-docker-ocpush-script)
-- [2. Install manually the opensilex opencpu container (If docker is already installed go to step 2.4)](#2-install-manually-the-opensilex-opencpu-container-if-docker-is-already-installed-go-to-step-24)
-  - [2.1. Installation version dated from 2019-02-13 (refer to the previous link)](#21-installation-version-dated-from-2019-02-13-refer-to-the-previous-link)
-  - [2.2. Add Docker’s official GPG key:](#22-add-dockers-official-gpg-key)
-  - [2.3. Use the following command to set up the stable repository.](#23-use-the-following-command-to-set-up-the-stable-repository)
-  - [2.4. Install docker](#24-install-docker)
-  - [2.5. Configure Docker as non root user](#25-configure-docker-as-non-root-user)
-  - [2.6. Enable docker service at startup](#26-enable-docker-service-at-startup)
-  - [2.7. Configure Docker DNS which allows docker containers it to connect to internet](#27-configure-docker-dns-which-allows-docker-containers-it-to-connect-to-internet)
-    - [2.7.1. Get servver DNS configuration](#271-get-servver-dns-configuration)
+- [1. Install automatically with install-docker-ocpu.sh script](#1-Install-automatically-with-install-docker-ocpush-script)
+- [2. Install manually the opensilex opencpu container (If docker is already installed go to step 2.4)](#2-Install-manually-the-opensilex-opencpu-container-If-docker-is-already-installed-go-to-step-24)
+  - [2.1. Installation version dated from 2019-02-13 (refer to the previous link)](#21-Installation-version-dated-from-2019-02-13-refer-to-the-previous-link)
+  - [2.2. Add Docker’s official GPG key:](#22-Add-Dockers-official-GPG-key)
+  - [2.3. Use the following command to set up the stable repository.](#23-Use-the-following-command-to-set-up-the-stable-repository)
+  - [2.4. Install docker](#24-Install-docker)
+  - [2.5. Configure Docker as non root user](#25-Configure-Docker-as-non-root-user)
+  - [2.6. Enable docker service at startup](#26-Enable-docker-service-at-startup)
+  - [2.7. (Optional) Configure Docker DNS which allows docker containers it to connect to internet (Only if you have issue with DNS)](#27-Optional-Configure-Docker-DNS-which-allows-docker-containers-it-to-connect-to-internet-Only-if-you-have-issue-with-DNS)
+    - [2.7.1. Get servver DNS configuration](#271-Get-servver-DNS-configuration)
       - [2.7.1.1. for ubuntu](#2711-for-ubuntu)
       - [2.7.1.2. for debian](#2712-for-debian)
-      - [2.7.1.3. Set right docker DNS (Informtations about DNS configuration))](#2713-set-right-docker-dns-informtations-about-dns-configuration)
-      - [2.7.1.4. Specific step for Ubuntu system (network configuration)](#2714-specific-step-for-ubuntu-system-network-configuration)
-      - [2.7.1.5. Step for Ubuntu or Debian system (docker dns configuration)](#2715-step-for-ubuntu-or-debian-system-docker-dns-configuration)
+      - [2.7.1.3. Set right docker DNS (Informtations about DNS configuration))](#2713-Set-right-docker-DNS-Informtations-about-DNS-configuration)
+      - [2.7.1.4. Specific step for Ubuntu system (network configuration)](#2714-Specific-step-for-Ubuntu-system-network-configuration)
+      - [2.7.1.5. Step for Ubuntu or Debian system (docker dns configuration)](#2715-Step-for-Ubuntu-or-Debian-system-docker-dns-configuration)
       - [2.7.1.6. restart docker and from root:](#2716-restart-docker-and-from-root)
-- [3. Run docker container](#3-run-docker-container)
-  - [3.1. Build docker image](#31-build-docker-image)
-  - [3.2. Run docker image](#32-run-docker-image)
-  - [3.3. Test demo application](#33-test-demo-application)
-  - [3.4. Stop docker container](#34-stop-docker-container)
-  - [3.5. Start docker container](#35-start-docker-container)
-  - [3.6. Remove docker container](#36-remove-docker-container)
-- [4. How to install a custom openCPU application](#4-how-to-install-a-custom-opencpu-application)
-- [5. How to move an R package from host to container {host_scripts_path} and install it](#5-how-to-move-an-r-package-from-host-to-container-hostscriptspath-and-install-it)
-  - [5.1. From github account (recommended way)](#51-from-github-account-recommended-way)
-  - [5.2. From local directory inside the container (See 3.2 step comments before)](#52-from-local-directory-inside-the-container-see-32-step-comments-before)
-- [6. To uninstall docker :](#6-to-uninstall-docker)
+- [3. Run docker container](#3-Run-docker-container)
+  - [3.1. Build docker image](#31-Build-docker-image)
+  - [3.2. Run docker image](#32-Run-docker-image)
+  - [3.3. Test demo application](#33-Test-demo-application)
+  - [3.4. Stop docker container](#34-Stop-docker-container)
+  - [3.5. Start docker container](#35-Start-docker-container)
+  - [3.6. Remove docker container](#36-Remove-docker-container)
+- [4. How to install a custom openCPU application](#4-How-to-install-a-custom-openCPU-application)
+- [5. How to move an R package from host to container {host_scripts_path} and install it](#5-How-to-move-an-R-package-from-host-to-container-hostscriptspath-and-install-it)
+  - [5.1. From github account (recommended way)](#51-From-github-account-recommended-way)
+  - [5.2. From local directory inside the container (See 3.2 step comments before)](#52-From-local-directory-inside-the-container-See-32-step-comments-before)
+- [6. To uninstall docker :](#6-To-uninstall-docker)
 
 <!-- /TOC -->
 
@@ -57,7 +57,7 @@ This script allow you to install easily docker, configure it for your purpose an
 Three steps are needed to install and run this docker container :
 
  - ``install docker if not installed (installation doc date : 14/06/2019). ``
-   ``It is better to install docker from the official documentation``
+   ``It is better to install docker from the `` [official documentation](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
 ```bash
   . install-docker-ocpu.sh -d 
 ```
@@ -74,6 +74,14 @@ Log out and reconnect to your account
   . install-docker-ocpu.sh -o {password for rstudio}
 ```
 Example :  . install-docker-ocpu.sh -o secret
+
+``If you have some issues with internet connection configuration (DNS server). You can use these following commands.``
+ - ``(Optional) configure docker DNS``
+```bash
+  . install-docker-ocpu.sh -u 
+```
+
+
 
 If the container is successfully installed, go to the step 3.3 .
 
@@ -158,7 +166,7 @@ For more information go to https://docs.docker.com/install/linux/linux-postinsta
 sudo systemctl enable docker
 ```
 
-## 2.7. Configure Docker DNS which allows docker containers it to connect to internet
+## 2.7. (Optional) Configure Docker DNS which allows docker containers it to connect to internet (Only if you have issue with DNS)
 
 ### 2.7.1. Get servver DNS configuration
 
