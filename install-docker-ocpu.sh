@@ -6,7 +6,7 @@
 #  *  opensilex-ocpu-docker
 #  *  Copyright © INRA 2019
 #  *  Creation date:  12 June, 2019
-#  *  Contact: arnaud.charleroy@inra.fr
+#  *  Contact: arnaud.charleroy@inra.fr, anne.tireau@inra.fr, pascal.neveu@inra.fr
 #  * ******************************************************************************
 #  */
 

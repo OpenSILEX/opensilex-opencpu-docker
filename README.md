@@ -1,5 +1,6 @@
 This readme allows you to install a docker image of openCPU which contains
-a demonstration [R web application](https://www.opencpu.org/apps.html) and the latest version of phisWSClientR package.
+a demonstration [R web application](https://www.opencpu.org/apps.html), the latest stable version of phisWSClientR package
+and a server version of rstudio server.
 
 ``Prerequisites`` :
 
@@ -8,13 +9,13 @@ a demonstration [R web application](https://www.opencpu.org/apps.html) and the l
 
 <!-- TOC -->
 
-- [1. Install automatically docker and opensilex opencpu container with ``install-docker-ocpu.sh`` script](#1-Install-automatically-docker-and-opensilex-opencpu-container-with-install-docker-ocpush-script)
+- [1. Install automatically docker and opencpu docker container with ``install-docker-ocpu.sh`` script](#1-Install-automatically-docker-and-opencpu-docker-container-with-install-docker-ocpush-script)
   - [1.1 Install docker if not installed (installation documentation date : 2019-06-14)](#11-Install-docker-if-not-installed-installation-documentation-date--2019-06-14)
   - [1.2 Configure docker for opencpu](#12-Configure-docker-for-opencpu)
   - [1.3 Log out and reconnect to your account](#13-Log-out-and-reconnect-to-your-account)
   - [1.4 Install opencpu docker](#14-Install-opencpu-docker)
   - [1.5 ``(Optional)`` configure docker DNS](#15-Optional-configure-docker-DNS)
-- [2. Install manually docker and opensilex opencpu container (If docker is already installed go to step 2.4)](#2-Install-manually-docker-and-opensilex-opencpu-container-If-docker-is-already-installed-go-to-step-24)
+- [2. Install manually docker and opencpu container (If docker is already installed go to step 2.4)](#2-Install-manually-docker-and-opencpu-container-If-docker-is-already-installed-go-to-step-24)
   - [2.5. Configure Docker as non root user](#25-Configure-Docker-as-non-root-user)
   - [2.6. Enable docker service at startup](#26-Enable-docker-service-at-startup)
   - [2.7. (Optional) Configure Docker DNS which allows docker containers it to connect to internet (Only if you have issue with DNS)](#27-Optional-Configure-Docker-DNS-which-allows-docker-containers-it-to-connect-to-internet-Only-if-you-have-issue-with-DNS)
@@ -40,14 +41,13 @@ a demonstration [R web application](https://www.opencpu.org/apps.html) and the l
 
 <!-- /TOC -->
 
+# 1. Install automatically docker and opencpu docker container with ``install-docker-ocpu.sh`` script
 
-# 1. Install automatically docker and opensilex opencpu container with ``install-docker-ocpu.sh`` script
-
-<details><summary>Click here to see the steps to install/configure docker and install opensilex opencpu container with <em>install-docker-ocpu.sh</em> script</summary>
+Click here to see the steps to install/configure docker and install opensilex opencpu container with ``install-docker-ocpu.sh``.
 
 This script allow you to install easily docker, configure it for your purpose and install opensilex opencpu docker.
 
-```
+```bash
  Usage: install-docker-ocpu.sh [ 
           Usage: install-docker-ocpu.sh [ 
             [-i --install-all docker-rstudio-password]  regroup all other functions
@@ -76,9 +76,9 @@ Three steps are needed to install and run this docker container :
 
 ## 1.4 Install opencpu docker
 ```bash
-  . install-docker-ocpu.sh -o {password for rstudio}
+  . install-docker-ocpu.sh -o {password for rstudio server}
 ```
-Example :  . install-docker-ocpu.sh -o secret
+Example :  ```. install-docker-ocpu.sh -o secret```
 
 ``If you have some issues with internet connection configuration (DNS server). You can use these following commands.``
 ## 1.5 ``(Optional)`` configure docker DNS
@@ -86,11 +86,9 @@ Example :  . install-docker-ocpu.sh -o secret
   . install-docker-ocpu.sh -u 
 ```
 
-If the container is successfully installed, go to the step 3.3 .
+If the container is successfully installed, go to the step [3.3](#33-Test-demo-application) .
 
-</details>
-
-# 2. Install manually docker and opensilex opencpu container (If docker is already installed go to step 2.4)
+# 2. Install manually docker and opencpu container (If docker is already installed go to step 2.4)
 
 <details><summary> Click here to see steps to install manually docker opencpu</summary>
 
