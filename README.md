@@ -8,7 +8,12 @@ a demonstration [R web application](https://www.opencpu.org/apps.html) and the l
 
 <!-- TOC -->
 
-- [1. Install automatically with install-docker-ocpu.sh script](#1-Install-automatically-with-install-docker-ocpush-script)
+- [1. Install automatically container with ``install-docker-ocpu.sh`` script](#1-Install-automatically-container-with-install-docker-ocpush-script)
+  - [1.1 Install docker if not installed (installation documentation date : 2019-06-14)](#11-Install-docker-if-not-installed-installation-documentation-date--2019-06-14)
+  - [1.2 Configure docker for opencpu](#12-Configure-docker-for-opencpu)
+  - [1.3 Log out and reconnect to your account](#13-Log-out-and-reconnect-to-your-account)
+  - [1.4 install opencpu docker](#14-install-opencpu-docker)
+  - [1.5 ``(Optional)`` configure docker DNS](#15-Optional-configure-docker-DNS)
 - [2. Install manually the opensilex opencpu container (If docker is already installed go to step 2.4)](#2-Install-manually-the-opensilex-opencpu-container-If-docker-is-already-installed-go-to-step-24)
   - [2.1. Installation version dated from 2019-02-13 (refer to the previous link)](#21-Installation-version-dated-from-2019-02-13-refer-to-the-previous-link)
   - [2.2. Add Docker’s official GPG key:](#22-Add-Dockers-official-GPG-key)
@@ -40,53 +45,58 @@ a demonstration [R web application](https://www.opencpu.org/apps.html) and the l
 <!-- /TOC -->
 
 
-# 1. Install automatically with install-docker-ocpu.sh script
+# 1. Install automatically container with ``install-docker-ocpu.sh`` script
+
+<details><summary>Click here to see the steps to install configure docker and install container with <em>install-docker-ocpu.sh</em> script</summary>
 
 This script allow you to install easily docker, configure it for your purpose and install opensilex opencpu docker.
 
 ```
  Usage: install-docker-ocpu.sh [ 
-            [-i --install-all {docker-rstudio-password}]  
-            [-d --install-docker ] 
-            [-c --configure-docker] 
-            [-u --docker-dns-reconfigure] 
-            [-o --install-ocpu-docker-with-password {docker-rstudio-password}]
+          Usage: install-docker-ocpu.sh [ 
+            [-i --install-all docker-rstudio-password]  regroup all other functions
+            [-d --install-docker ] For Ubuntu and Debian - installation documentation date : 2019-06-14
+            [-c --configure-docker] For Ubuntu and Debian  
+            [-u --docker-dns-reconfigure] For Ubuntu and Debian 
+            [-n --configure-network] # add 172.17.0.1 to dnsmasq for Ubuntu only
+            [-o --install-ocpu-docker-with-password docker-rstudio-password] For Ubuntu and Debian
             [-h --help]
           ]
 ```
 Three steps are needed to install and run this docker container :
 
- - ``install docker if not installed (installation doc date : 14/06/2019). ``
+## 1.1 Install docker if not installed (installation documentation date : 2019-06-14)
    ``It is better to install docker from the `` [official documentation](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
 ```bash
   . install-docker-ocpu.sh -d 
 ```
 
- - ``configure docker for opencpu``
+## 1.2 Configure docker for opencpu
 ```bash
   . install-docker-ocpu.sh -c 
 ```
 
-Log out and reconnect to your account
+## 1.3 Log out and reconnect to your account
 
- - ``install opencpu docker``
+## 1.4 install opencpu docker
 ```bash
   . install-docker-ocpu.sh -o {password for rstudio}
 ```
 Example :  . install-docker-ocpu.sh -o secret
 
 ``If you have some issues with internet connection configuration (DNS server). You can use these following commands.``
- - ``(Optional) configure docker DNS``
+## 1.5 ``(Optional)`` configure docker DNS
 ```bash
   . install-docker-ocpu.sh -u 
 ```
 
-
-
 If the container is successfully installed, go to the step 3.3 .
 
+</details>
 
 # 2. Install manually the opensilex opencpu container (If docker is already installed go to step 2.4)
+
+<details><summary> Click here to see steps to install manually docker opencpu</summary>
 
 Follow the [Installation guide](https://docs.docker.com/install/linux/docker-ce/debian/#install-docker-ce-1). _(recommended)_
 
@@ -230,6 +240,7 @@ echo "{\"dns\": [\"172.17.0.1\",\"YOUR_DNS_1_IP_HERE\", \"YOUR_DNS_2_IP_HERE\", 
 ```bash
 service docker restart
 ```
+</details>
 
 # 3. Run docker container
 
@@ -303,6 +314,7 @@ R -e 'opencpu::install_apps("opensilex/opensilex-datavis-rapp-demo")'
 
 
 # 5. How to move an R package from host to container {host_scripts_path} and install it
+<details><summary>Click here to see steps to move an R package from host to container</summary>
 
 ## 5.1. From github account (recommended way)
 
@@ -347,3 +359,4 @@ R -e 'install.packages("/home/opencpu/scripts/phisWSClientR_1.3.0.tar.gz",repos=
 Follow instructions at :
 
 ``https://docs.docker.com/install/linux/docker-ce/debian/#uninstall-docker-ce``
+</details>
